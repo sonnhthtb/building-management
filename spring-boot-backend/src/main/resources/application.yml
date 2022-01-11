@@ -11,9 +11,9 @@ spring:
       max-request-size: 10MB
   # DATASOURCE ----------------------------------------------------------------------------------------------------
   datasource:
-    url: jdbc:mysql://reddit.ctmzootc3oh6.ap-south-1.rds.amazonaws.com:3306/btl_ltw
-    username: admin
-    password: 16102000
+    url: jdbc:mysql://localhost:3306/database-name
+    username: 
+    password: 
     driver-class-name: com.mysql.cj.jdbc.Driver
   # JPA ----------------------------------------------------------------------------------------------------
   jpa:
@@ -25,15 +25,6 @@ spring:
     basename: messages
     use-code-as-default-message: true
 
-#
-#cloud:
-#  aws:
-#    region:
-#      auto: false
-#      static: us-west-2
-#    stack:
-#      auto: false
-#
 logging:
   level:
     com:
