@@ -6,9 +6,11 @@ import lombok.Setter;
 import myteam.project4.exception.ErrorResponse;
 import org.springframework.http.HttpStatus;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class BaseResponse<T> {
+public class BaseResponse<T> implements Serializable{
     private int code;
     private T data;
 

@@ -7,6 +7,7 @@ import myteam.project4.model.request.UsedServiceRequest;
 import myteam.project4.model.response.*;
 import myteam.project4.service.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -107,12 +108,13 @@ public class CompanyController {
     }
 
     @GetMapping("/{company_id}/employee/search")
-    BaseResponse<List<CompanyEmployeeResponse>> findCompanyEmployeeByNameLike(@PathVariable Long company_id, @RequestParam String name){
+    public BaseResponse<List<CompanyEmployeeResponse>> findCompanyEmployeeByNameLike(@PathVariable Long company_id, @RequestParam String name){
         return BaseResponse.ofSuccess(companyEmployeeService.findCompanyEmployeeByCompanyAndNameLike(company_id,name));
     }
 
+    @Cacheable(value = "company_statistic", key = "#month+''+#year")
     @GetMapping("/view-statistic/{month}/{year}")
-    BaseResponse<List<MonthStatCompanyResponse>> viewStatistic(@PathVariable int month, @PathVariable int year) {
+    public BaseResponse<List<MonthStatCompanyResponse>> viewStatistic(@PathVariable int month, @PathVariable int year){
         return BaseResponse.ofSuccess(monthStatCompany.viewStatistic(month, year));
     }
 }

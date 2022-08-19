@@ -2,7 +2,9 @@ package myteam.project4.model.response;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class ProtectedServiceResponse extends ServiceResponse{
+public class ProtectedServiceResponse extends ServiceResponse implements Serializable {
     private String any;
 }

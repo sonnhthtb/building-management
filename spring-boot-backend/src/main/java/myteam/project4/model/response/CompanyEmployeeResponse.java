@@ -1,8 +1,10 @@
 package myteam.project4.model.response;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class CompanyEmployeeResponse {
+public class CompanyEmployeeResponse implements Serializable {
     private Long id;
     private String code;
     private String identification;

@@ -4,10 +4,11 @@ import lombok.Data;
 import myteam.project4.entity.CompanyEmployee;
 import myteam.project4.entity.UsedService;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class CompanyDetailResponse {
+public class CompanyDetailResponse implements Serializable {
     private Long id;
     private String name;
     private String taxCode;

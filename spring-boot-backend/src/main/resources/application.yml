@@ -12,12 +12,19 @@ spring:
   # DATASOURCE ----------------------------------------------------------------------------------------------------
   datasource:
     url: jdbc:mysql://localhost:3306/database-name
-    username: 
-    password: 
+    username:
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
+  cache:
+    type: redis
+    redis:
+      time-to-live: 10000
+  redis:
+    host: localhost
+    port: 6380
   # JPA ----------------------------------------------------------------------------------------------------
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL55Dialect

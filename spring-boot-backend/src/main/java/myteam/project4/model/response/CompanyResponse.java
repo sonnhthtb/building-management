@@ -2,8 +2,10 @@ package myteam.project4.model.response;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class CompanyResponse {
+public class CompanyResponse implements Serializable {
     private Long id;
     private String name;
     private String taxCode;
