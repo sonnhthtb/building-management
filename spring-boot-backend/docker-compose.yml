@@ -6,3 +6,34 @@ services:
     ports:
       - 6380:6379
     tty: true
+
+  postgresql:
+    image: postgres
+    volumes:
+      - postgresql:/data/postgresql
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+
+  keycloak:
+    image: jboss/keycloak:16.1.0
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgresql
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: 123456
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgresql
+
+volumes:
+  postgresql:

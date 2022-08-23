@@ -8,9 +8,7 @@ import myteam.project4.entity.MonthUsedService;
 import myteam.project4.entity.UsedService;
 import myteam.project4.exception.BusinessCode;
 import myteam.project4.exception.BusinessException;
-import myteam.project4.mapper.CompanyEmployeeMapper;
 import myteam.project4.mapper.CompanyMapper;
-import myteam.project4.mapper.UsedServiceMapper;
 import myteam.project4.model.request.CompanyRequest;
 import myteam.project4.model.response.CompanyDetailResponse;
 import myteam.project4.model.response.CompanyResponse;
@@ -23,10 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -95,9 +90,6 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public List<CompanyResponse> getAllCompany() {
         List<Company> companyList = companyRepository.findAllByIsDeleted(false);
-        companyList.stream().forEach(company ->
-                company.setCompanyEmployeeList(companyEmployeeRepository
-                        .findCompanyEmployeeByIsDeletedAndCompanyId(false, company.getId())));
         return companyList.stream().map(companyMapper::to).collect(Collectors.toList());
     }
 

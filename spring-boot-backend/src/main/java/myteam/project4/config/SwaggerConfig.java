@@ -66,7 +66,7 @@ public class SwaggerConfig {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("JWT", "Authorization", "header");
+        return new ApiKey("Bear", "Authorization", "header");
     }
 
     private SecurityContext securityContext() {

@@ -1,13 +1,17 @@
 package myteam.project4.controller;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import lombok.AllArgsConstructor;
 import myteam.project4.model.request.CompanyEmployeeRequest;
 import myteam.project4.model.request.CompanyRequest;
 import myteam.project4.model.request.UsedServiceRequest;
 import myteam.project4.model.response.*;
 import myteam.project4.service.*;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -91,10 +95,18 @@ public class CompanyController {
     public  BaseResponse<CompanyEmployeeResponse> getCompanyEmployeeById(@PathVariable Long employee_id, @PathVariable String company_id){
         return BaseResponse.ofSuccess(companyEmployeeService.findById(employee_id));
     }
-
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                    value = "Results page you want to retrieve (0..N)", defaultValue = "0"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                    value = "Number of records per page.", defaultValue = "15"),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string",
+                    paramType = "query", value = "Sorting criteria in the format: property(,asc|desc). "
+                    + "Default sort order is ascending. Multiple sort criteria are supported.")})
     @GetMapping("/{company_id}/employee")
-    public BaseResponse<List<CompanyEmployeeResponse>> getCompanyEmployeeByCompanyId(@PathVariable Long company_id){
-        return BaseResponse.ofSuccess(companyEmployeeService.findByCompanyId(company_id));
+    public BaseResponse<List<CompanyEmployeeResponse>> getCompanyEmployeeByCompanyId(@PathVariable Long company_id,
+                                                                                     @ApiIgnore Pageable pageable){
+        return BaseResponse.ofSuccess(companyEmployeeService.findByCompanyId(company_id, pageable));
     }
 
     @GetMapping("/{company_id}/employee/list")

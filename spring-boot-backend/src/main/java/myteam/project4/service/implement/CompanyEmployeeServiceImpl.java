@@ -12,6 +12,7 @@ import myteam.project4.model.request.CompanyEmployeeRequest;
 import myteam.project4.model.response.CompanyEmployeeResponse;
 import myteam.project4.repository.CompanyEmployeeRepository;
 import myteam.project4.service.CompanyEmployeeService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,8 +71,8 @@ public class CompanyEmployeeServiceImpl implements CompanyEmployeeService {
     }
 
     @Override
-    public List<CompanyEmployeeResponse> findByCompanyId(Long company_id) {
-        List<CompanyEmployee> list = repository.findCompanyEmployeeByIsDeletedAndCompanyId(false,company_id);
+    public List<CompanyEmployeeResponse> findByCompanyId(Long company_id, Pageable pageable) {
+        List<CompanyEmployee> list = repository.findCompanyEmployeeByIsDeletedAndCompanyId(false,company_id, pageable);
         return list.stream().map(mapper::to).collect(Collectors.toList());
     }
 
