@@ -10,6 +10,7 @@ import myteam.project4.utils.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -48,5 +49,11 @@ public final class HandleExceptionController {
         HttpStatus httpStatus = businessException.getErrorResponse().getStatus();
         log.error("Exception global with message: {} status: {} exception: {}", exception.getMessage(), httpStatus, StringUtil.stackTraceToString(exception));
         return new ResponseEntity<>(BaseResponse.ofFailed(businessException.getErrorResponse()), httpStatus);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<BaseResponse<ErrorResponse>> handleBusinessException(AccessDeniedException exception) {
+        log.error("Exception global with message: {} status: {} exception: {}", exception.getMessage(), HttpStatus.UNAUTHORIZED, StringUtil.stackTraceToString(exception));
+        return new ResponseEntity<>(BaseResponse.ofFailed(new ErrorResponse("UNAUTHORIZED", "Not have permision!", HttpStatus.UNAUTHORIZED)), HttpStatus.FORBIDDEN);
     }
 }

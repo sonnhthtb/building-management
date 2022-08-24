@@ -17,7 +17,7 @@ public class KeyCloakUtils {
                 env.getProperty("keycloak-config.username"),
                 env.getProperty("keycloak-config.password"),
                 env.getProperty("keycloak.resource"),
-                env.getProperty("keycloak-config.client-secret"));
+                env.getProperty("keycloak.credentials.secret"));
     }
 
 

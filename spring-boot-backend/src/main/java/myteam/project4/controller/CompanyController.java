@@ -9,10 +9,13 @@ import myteam.project4.model.request.UsedServiceRequest;
 import myteam.project4.model.response.*;
 import myteam.project4.service.*;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -104,7 +107,8 @@ public class CompanyController {
                     paramType = "query", value = "Sorting criteria in the format: property(,asc|desc). "
                     + "Default sort order is ascending. Multiple sort criteria are supported.")})
     @GetMapping("/{company_id}/employee")
-    public BaseResponse<List<CompanyEmployeeResponse>> getCompanyEmployeeByCompanyId(@PathVariable Long company_id,
+    @PreAuthorize("hasRole('USER')")
+    public BaseResponse<Page<CompanyEmployeeResponse>> getCompanyEmployeeByCompanyId(@PathVariable Long company_id,
                                                                                      @ApiIgnore Pageable pageable){
         return BaseResponse.ofSuccess(companyEmployeeService.findByCompanyId(company_id, pageable));
     }

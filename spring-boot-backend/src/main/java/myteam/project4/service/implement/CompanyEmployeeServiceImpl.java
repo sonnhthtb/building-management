@@ -1,9 +1,7 @@
 package myteam.project4.service.implement;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import myteam.project4.entity.Company;
 import myteam.project4.entity.CompanyEmployee;
 import myteam.project4.exception.BusinessCode;
 import myteam.project4.exception.BusinessException;
@@ -12,10 +10,12 @@ import myteam.project4.model.request.CompanyEmployeeRequest;
 import myteam.project4.model.response.CompanyEmployeeResponse;
 import myteam.project4.repository.CompanyEmployeeRepository;
 import myteam.project4.service.CompanyEmployeeService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Converter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,9 +71,9 @@ public class CompanyEmployeeServiceImpl implements CompanyEmployeeService {
     }
 
     @Override
-    public List<CompanyEmployeeResponse> findByCompanyId(Long company_id, Pageable pageable) {
-        List<CompanyEmployee> list = repository.findCompanyEmployeeByIsDeletedAndCompanyId(false,company_id, pageable);
-        return list.stream().map(mapper::to).collect(Collectors.toList());
+    public Page<CompanyEmployeeResponse> findByCompanyId(Long company_id, Pageable pageable) {
+        Page<CompanyEmployee> list = repository.findCompanyEmployeeByIsDeletedAndCompanyId(false,company_id, pageable);
+        return list.map(mapper::to);
     }
 
     @Override

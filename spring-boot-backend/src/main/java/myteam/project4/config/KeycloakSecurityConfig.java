@@ -35,15 +35,22 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 //            .antMatchers("/test/user").hasAnyRole("user")
 //            .antMatchers("/test/admin").hasAnyRole("admin")
 //            .antMatchers("/test/all-user").hasAnyRole("user","admin")
+                .antMatchers("/public-api/v1.0.0/**").hasAnyRole("USER")
                 .anyRequest()
                 .authenticated();
         http.csrf().disable();
     }
 
+    /**
+     * register the KeycloakAuthenticationProvider with the authentication manager
+     * @param auth
+     */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
-        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
+        SimpleAuthorityMapper mapper = new SimpleAuthorityMapper();
+        mapper.setConvertToUpperCase(true);
+        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(mapper);
         auth.authenticationProvider(keycloakAuthenticationProvider);
     }
 

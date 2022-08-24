@@ -47,7 +47,6 @@ public class KeyCloakServiceImpl implements KeyCloakService {
     @Override
     public UserDTO createUser(UserDTO userDTO) {
         Keycloak keycloak = keyCloakUtils.getKeycloakInstance();
-
         keycloak.tokenManager().getAccessToken();
         UserRepresentation user = new UserRepresentation();
         user.setEnabled(true);
@@ -84,8 +83,12 @@ public class KeyCloakServiceImpl implements KeyCloakService {
             userResource.resetPassword(passwordCred);
 
             // set role
-            RoleRepresentation realmRoleUser = realmResource.roles().get("USER").toRepresentation();
-            userResource.roles().realmLevel().add(Collections.singletonList(realmRoleUser));
+            try {
+                RoleRepresentation realmRoleUser = realmResource.roles().get("USER").toRepresentation();
+                userResource.roles().realmLevel().add(Collections.singletonList(realmRoleUser));
+            } catch(Exception e) {
+                log.error(e.getMessage());
+            }
         }
         return userDTO;
     }
